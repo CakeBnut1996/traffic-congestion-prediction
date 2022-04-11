@@ -9,16 +9,16 @@ Variables
 | Variable Name        | Description           | Example  |
 | ------------- |:-------------:| -----:|
 | predStartTime      | The day when prediction starts | '2/2/2019' |
-| TMC_list      | If we provide an empty list, the output will contain the predictions of ALL TMCs. If we provide a list of TMCs, the output will only include predictions of the specified TMCs      | Default: []. Alt: ['112P51337'] |
-| loc_wd | The folder that saves the weekday models (predicting next 1-12 weekdays)      |  'models/' |
-| loc_wk | The folder that saves the weekend models (predicting next 1-12 weekends)      |  'models_weekend/' |
+| TMC_list      | If we provide an empty list, the output will contain the predictions of ALL TMCs. If we provide a list of TMCs, the output will only include predictions of the specified TMCs      | Default: []. Alt: ['112P51337']    |
+| loc_wd | The folder that saves the weekday models (predicting next 1-12 weekdays)      |  'models/'    |
+| loc_wk | The folder that saves the weekend models (predicting next 1-12 weekends)      |  'models_weekend/'    |
 
 File 1: raw_reading = 'data/Readings.csv'
 * tmc_code: TMC ID (INRIX)
 * measurement_tstamp: time of the recorded speed (UTC-6)
 * speed: speed (mph) of the current time (confidence score indicates whether the speed is inferred or directly from real-time)
 * reference_speed: typical free flow speed for the segment (speed limit)
-![alt text](traffic-congestion-prediction/image/Input file example.png)
+* ![Input file example](https://user-images.githubusercontent.com/46463367/162666540-8c1032e0-8ba7-4ce0-b0fb-e31a7ff79c76.png)
 
 File 2: clsFile = 'class_complete.csv' (Including all the TMC and their labels and coordinates)
 * TMC: The same TMC ID as of tmc_code
@@ -66,28 +66,28 @@ File 2: clsFile = 'class_complete.csv' (Including all the TMC and their labels a
             raw_reading = 'INRIX data/Harris/data_raw/Readings.csv' # Historical speed
             clsFile = 'data/class_complete.csv'
         Output:
-            As shown in figure 3 [csv]
+            ![longtermoutput](https://user-images.githubusercontent.com/46463367/162666730-2b653b41-17cd-4f47-a77d-db22ba09b010.png)
 
 
 
 
 # General Information of Models:
 * If predicting tomomrrow which is weekday, the models in folder 'models' will be utilzied. 
-** Input: speed from 1-5 weekdays ago, 2 weeks ago at the same time, and from 1-5 days ago 45, 30, 15 minutes ago
-** Output: tomorrow's congestion level by cluster, midnight, AM and PM (10PM-5AM, 5AM-12PM, 12PM-10PM), Mon-Thu and Fri
+    * Input: speed from 1-5 weekdays ago, 2 weeks ago at the same time, and from 1-5 days ago 45, 30, 15 minutes ago
+    * Output: tomorrow's congestion level by cluster, midnight, AM and PM (10PM-5AM, 5AM-12PM, 12PM-10PM), Mon-Thu and Fri
         
-    If predicting weekends (tomorrow or within future 6 days), the models in the folder 'models_weekdns' will be utilzied.
-        Input: speed from 7 days ago at the same time, 45, 30, 15 minutes ago
-        Output: tomorrow's congestion level by cluster, AM and PM
+* If predicting weekends (tomorrow or within future 6 days), the models in the folder 'models_weekdns' will be utilzied.
+    * Input: speed from 7 days ago at the same time, 45, 30, 15 minutes ago
+    * Output: tomorrow's congestion level by cluster, AM and PM
     
-    If predicting weekends (next week), the models in the folder 'models_weekdns' will be utilzied.
-        Input: speed from 14 days ago at the same time
-        Output: tomorrow's congestion level by cluster, AM and PM
+* If predicting weekends (next week), the models in the folder 'models_weekdns' will be utilzied.
+    * Input: speed from 14 days ago at the same time
+    * Output: tomorrow's congestion level by cluster, AM and PM
 
-    If predicting next 2-5 weekdays, the models in the folder 'models_future' whose prefix is 'model_week1*' will be utilized.
-        Input: speed from 7 days ago (5 weekdays ago) at the same time, 45, 30, 15 minutes ago
-        Output: next 5 days' congestion level by cluster, midnight, AM and PM
+* If predicting next 2-5 weekdays, the models in the folder 'models_future' whose prefix is 'model_week1*' will be utilized.
+    * Input: speed from 7 days ago (5 weekdays ago) at the same time, 45, 30, 15 minutes ago
+    * Output: next 5 days' congestion level by cluster, midnight, AM and PM
         
-    If predict next 5-10 weekdays, the models in the folder 'models_future' whose prefic is 'model_week2*' will be utilzied.
-        Input: speed from 14 days ago (5 weekdays ago) at the same time
-        Output: next 5 days' congestion level by cluster, midnight, AM and PM
+* If predict next 5-10 weekdays, the models in the folder 'models_future' whose prefic is 'model_week2*' will be utilzied.
+    * Input: speed from 14 days ago (5 weekdays ago) at the same time
+    * Output: next 5 days' congestion level by cluster, midnight, AM and PM
