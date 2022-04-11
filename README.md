@@ -18,7 +18,8 @@ File 1: raw_reading = 'data/Readings.csv'
 * measurement_tstamp: time of the recorded speed (UTC-6)
 * speed: speed (mph) of the current time (confidence score indicates whether the speed is inferred or directly from real-time)
 * reference_speed: typical free flow speed for the segment (speed limit)
-* ![Input file example](https://user-images.githubusercontent.com/46463367/162666540-8c1032e0-8ba7-4ce0-b0fb-e31a7ff79c76.png)
+![Input file example](https://user-images.githubusercontent.com/46463367/162666540-8c1032e0-8ba7-4ce0-b0fb-e31a7ff79c76.png)
+
 
 File 2: clsFile = 'class_complete.csv' (Including all the TMC and their labels and coordinates)
 * TMC: The same TMC ID as of tmc_code
@@ -50,8 +51,7 @@ File 2: clsFile = 'class_complete.csv' (Including all the TMC and their labels a
             loc_weekday: the location of all the weekday models
             loc_weekend: the location of all the weekend models
             nextday: If predicting next i day, nextday is i. For example, nextday is 1 if we want to predict tomorrow's traffic [range from 1 to 12]
-        Output:
-            As shown in figure 3 in prediction.ipynb[csv]
+        
 
     Step 5:Running the above functions
         Input:
@@ -65,13 +65,13 @@ File 2: clsFile = 'class_complete.csv' (Including all the TMC and their labels a
             loc_wk = 'models_weekend/' # The folder that saves the weekend models 
             raw_reading = 'INRIX data/Harris/data_raw/Readings.csv' # Historical speed
             clsFile = 'data/class_complete.csv'
-        Output:
-            ![longtermoutput](https://user-images.githubusercontent.com/46463367/162666730-2b653b41-17cd-4f47-a77d-db22ba09b010.png)
+        
+            
 
+# Output File
+![longtermoutput](https://user-images.githubusercontent.com/46463367/162666730-2b653b41-17cd-4f47-a77d-db22ba09b010.png)
 
-
-
-# General Information of Models:
+# General Information of XGBoost Models
 * If predicting tomomrrow which is weekday, the models in folder 'models' will be utilzied. 
     * Input: speed from 1-5 weekdays ago, 2 weeks ago at the same time, and from 1-5 days ago 45, 30, 15 minutes ago
     * Output: tomorrow's congestion level by cluster, midnight, AM and PM (10PM-5AM, 5AM-12PM, 12PM-10PM), Mon-Thu and Fri
