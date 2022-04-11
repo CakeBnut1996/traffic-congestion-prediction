@@ -1,3 +1,11 @@
+# Overview
+Given a date (predStartTime), the program outputs the congestion prediction from next 24 hours to next 10 weekdays. 
+* Frequency of calling the module: Once a day at midnight
+* Query database for historical speed -- Start time: 2 weeks from yesterday at 12 AM. End time: 11:45 PM of yesterday 
+* The size of the data queried -- Number of TMC: 13084. Size: Around 1.1G
+
+
+
 Input and output of the module:
 	Input parameters
 		The date of tomorrow predStartTime
