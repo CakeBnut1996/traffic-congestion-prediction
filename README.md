@@ -4,7 +4,13 @@ Given a date (predStartTime), the program outputs the congestion prediction from
 * Query database for historical speed -- Start time: 2 weeks from yesterday at 12 AM. End time: 11:45 PM of yesterday 
 * The size of the data queried -- Number of TMC: 13084. Size: Around 1.1G
 
-
+# Input of The Module
+| Variable Name        | Description           | Example  |
+| ------------- |:-------------:| -----:|
+| predStartTime      | The day when prediction starts | '2/2/2019' |
+| TMC_list      | If we provide an empty list, the output will contain the predictions of ALL TMCs. If we provide a list of TMCs, the output will only include predictions of the specified TMCs      |   Default: []. Alt: ['112P51337'] |
+| loc_wd | The folder that saves the weekday models (predicting next 1-12 weekdays)      |    'models/' |
+| loc_wk | The folder that saves the weekend models (predicting next 1-12 weekends)      |    'models_weekend/' |
 
 Input and output of the module:
 	Input parameters
