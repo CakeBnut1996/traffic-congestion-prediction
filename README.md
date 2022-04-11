@@ -18,7 +18,7 @@ File 1: raw_reading = 'data/Readings.csv'
 * measurement_tstamp: time of the recorded speed (UTC-6)
 * speed: speed (mph) of the current time (confidence score indicates whether the speed is inferred or directly from real-time)
 * reference_speed: typical free flow speed for the segment (speed limit)
-![alt text](https://github.com/CakeBnut1996/traffic-congestion-prediction/images/Input file example.png)
+![alt text](traffic-congestion-prediction/image/Input file example.png)
 
 File 2: clsFile = 'class_complete.csv' (Including all the TMC and their labels and coordinates)
 * TMC: The same TMC ID as of tmc_code
