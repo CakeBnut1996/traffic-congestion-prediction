@@ -1,34 +1,33 @@
-# Overview
+# Recurring Traffic Congestion Prediction Module Overview
 Given a date (predStartTime), the program outputs the congestion prediction from next 24 hours to next 10 weekdays. 
 * Frequency of calling the module: Once a day at midnight
 * Query database for historical speed -- Start time: 2 weeks from yesterday at 12 AM. End time: 11:45 PM of yesterday 
 * The size of the data queried -- Number of TMC: 13084. Size: Around 1.1G
 
-# Input of The Module
+# Input of the Module
+Variables
 | Variable Name        | Description           | Example  |
 | ------------- |:-------------:| -----:|
 | predStartTime      | The day when prediction starts | '2/2/2019' |
-| TMC_list      | If we provide an empty list, the output will contain the predictions of ALL TMCs. If we provide a list of TMCs, the output will only include predictions of the specified TMCs      |   Default: []. Alt: ['112P51337'] |
-| loc_wd | The folder that saves the weekday models (predicting next 1-12 weekdays)      |    'models/' |
-| loc_wk | The folder that saves the weekend models (predicting next 1-12 weekends)      |    'models_weekend/' |
+| TMC_list      | If we provide an empty list, the output will contain the predictions of ALL TMCs. If we provide a list of TMCs, the output will only include predictions of the specified TMCs      | Default: []. Alt: ['112P51337'] |
+| loc_wd | The folder that saves the weekday models (predicting next 1-12 weekdays)      |  'models/' |
+| loc_wk | The folder that saves the weekend models (predicting next 1-12 weekends)      |  'models_weekend/' |
 
-Input and output of the module:
-	Input parameters
-		The date of tomorrow predStartTime
-        The folder containing the historical speed csv files
-		The location where the weekday models (next day to next 10 days) are saved loc_wd
-		The location where the weekends models (next day to next 10 days) are saved loc_wd
-		The list of TMCs where we want to get predictions. If the list is empty, the program will return all predictions.
-	Input files
-		The csv files in the data folder following the naming format speed+date (e.g. speed_2019-01-01.csv ). Only tmc_code, measurement_tstamp, speed and reference_speed is used.    
-		class_complete.csv (Including all the TMC and their labels and coordinates)
-	
-	Output file
-		results.csv. The last column is predicted congestion level. 
+File 1: raw_reading = 'data/Readings.csv'
+* tmc_code: TMC ID (INRIX)
+* measurement_tstamp: time of the recorded speed (UTC-6)
+* speed: speed (mph) of the current time (confidence score indicates whether the speed is inferred or directly from real-time)
+* reference_speed: typical free flow speed for the segment (speed limit)
+![alt text](https://github.com/CakeBnut1996/traffic-congestion-prediction/images/Input file example.png)
 
+File 2: clsFile = 'class_complete.csv' (Including all the TMC and their labels and coordinates)
+* TMC: The same TMC ID as of tmc_code
+* TMC_HERE: The TMC ID used by HERE. They are mainly the same but INRIX have more segments. INRIX usually divides one TMC defined in HERE into 2.
+* lat_x: Middle of the start and end point latitude
+* lon_x: Middle of the start and end point longitude
+* label: The label or class of the TMC
 
-
-Input and output of each function inside the module:
+# How the Module Works
     Step 1: Read raw dataset in csv used to create independent variables (read_raw)
         Input: location (location that saves the raw daily speeds) [string]
                tmcList, default is empty [List]
@@ -72,10 +71,10 @@ Input and output of each function inside the module:
 
 
 
-General Information of Models:
-    If predicting tomomrrow which is weekday, the models in folder 'models' will be utilzied. 
-        Input: speed from 1-5 weekdays ago, 2 weeks ago at the same time, and from 1-5 days ago 45, 30, 15 minutes ago
-        Output: tomorrow's congestion level by cluster, midnight, AM and PM (10PM-5AM, 5AM-12PM, 12PM-10PM), Mon-Thu and Fri
+# General Information of Models:
+* If predicting tomomrrow which is weekday, the models in folder 'models' will be utilzied. 
+** Input: speed from 1-5 weekdays ago, 2 weeks ago at the same time, and from 1-5 days ago 45, 30, 15 minutes ago
+** Output: tomorrow's congestion level by cluster, midnight, AM and PM (10PM-5AM, 5AM-12PM, 12PM-10PM), Mon-Thu and Fri
         
     If predicting weekends (tomorrow or within future 6 days), the models in the folder 'models_weekdns' will be utilzied.
         Input: speed from 7 days ago at the same time, 45, 30, 15 minutes ago
